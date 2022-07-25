@@ -13,10 +13,10 @@ const salaryInputSlice = createSlice({
             return {...state,addExpense: !state.addExpense};
         },     
         enterExpenseAction: (state, action:PayloadAction<ExpenseType>) => {
-            if(parseInt(state.totalSalary) >= parseInt(action.payload.cost)){
-                return {...state, expense: [...state.expense,action.payload]}
-            }
-            return {...state, isExpenseMaxed: true};
+            return {...state, expense: [...state.expense,action.payload]}    
+        },
+        isExpensedMaxedAction: (state, action:PayloadAction<boolean>) => {
+            return {...state, isExpenseMaxed: action.payload}
         },
         updateTotalSalaryAction: (state, action: PayloadAction<string>) => {
             return {...state, totalSalary: (parseInt(state.totalSalary) - parseInt(action.payload)).toString()}
@@ -25,6 +25,6 @@ const salaryInputSlice = createSlice({
     }
 })
 
-export const { addTotalSalaryAction, addExpenseAction, enterExpenseAction, updateTotalSalaryAction } = salaryInputSlice.actions;
+export const { addTotalSalaryAction, addExpenseAction, enterExpenseAction, updateTotalSalaryAction, isExpensedMaxedAction } = salaryInputSlice.actions;
 
 export default salaryInputSlice.reducer;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ButtonStyle } from "../../common/styles/buttons.styles";
 import { useAppDispath, useAppSelector} from "../../store/hooks/store.hooks";
-import { enterExpenseAction, updateTotalSalaryAction } from "../../store/slices/app_slice";
+import { enterExpenseAction, isExpensedMaxedAction, updateTotalSalaryAction } from "../../store/slices/app_slice";
 import { Input } from "../SalaryInputComponent/salaryinput.styled";
 
 const ExpenseFormComponent = () =>{
@@ -17,6 +17,11 @@ const ExpenseFormComponent = () =>{
 
     const handleOnChange = (e:React.KeyboardEvent<HTMLInputElement>) => {
         const value = e.target.value;
+        if(e.target.name === 'cost') {
+            if(e.target.value > state.totalSalary){
+                dispath(isExpensedMaxedAction(true))
+            }
+        }
         setInputVal({
             ...inputVal,
             [e.target.name]: value
@@ -25,7 +30,9 @@ const ExpenseFormComponent = () =>{
 
     const handleOnSubmit = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispath(enterExpenseAction({type: inputVal.type, cost: inputVal.cost, timestamp:Date.now()}))
+        if(state.isExpenseMaxed !== false) {
+            dispath(enterExpenseAction({type: inputVal.type, cost: inputVal.cost, timestamp:Date.now()}))
+        }
         setInputVal({
             type:"",
             cost:""

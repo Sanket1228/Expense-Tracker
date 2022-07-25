@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { ButtonStyle } from "../../common/styles/buttons.styles";
 import { useAppDispath, useAppSelector } from "../../store/hooks/store.hooks"
-import { addExpenseAction, addTotalSalaryAction } from "../../store/slices/app_slice";
+import { addExpenseAction, addTotalSalaryAction, isExpensedMaxedAction } from "../../store/slices/app_slice";
 import ExpenseFormComponent from "../ExpenseFormComponent/ExpenseFormComponent";
-import { ContainerAddExpense, Input, SalaryInputBox, ShowSalaryTag } from "./salaryinput.styled"
+import { Closebutton, ContainerAddExpense, ErrorTag, Input, SalaryInputBox, ShowSalaryTag } from "./salaryinput.styled"
 
 const SalaryInputComponent:React.FC = () => {
 
@@ -20,12 +20,17 @@ const SalaryInputComponent:React.FC = () => {
     const handleOnSubmit = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispath(addTotalSalaryAction(inputValue));
+        dispath(isExpensedMaxedAction(false));
         setInputValue("");
     }
 
 
     const handleOnClickAddExp = () => {
         dispath(addExpenseAction());
+    }
+
+    const handleOnClickClose = () => {
+        dispath(isExpensedMaxedAction(false));
     }
 
     return(
@@ -54,7 +59,12 @@ const SalaryInputComponent:React.FC = () => {
                     {
                         state.isExpenseMaxed
                         ?
-                        <div>Not enough salary to expense</div>
+                        <ErrorTag>
+                            Not enough salary to expense
+                            <Closebutton onClick={handleOnClickClose}>
+                                X
+                            </Closebutton>                        
+                        </ErrorTag>
                         :
                         <></>
                     }
