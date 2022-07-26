@@ -21,6 +21,9 @@ const ExpenseFormComponent = () =>{
             if(e.target.value > state.totalSalary){
                 dispath(isExpensedMaxedAction(true))
             }
+            else {
+                dispath(isExpensedMaxedAction(false))
+            }
         }
         setInputVal({
             ...inputVal,
@@ -30,9 +33,7 @@ const ExpenseFormComponent = () =>{
 
     const handleOnSubmit = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(state.isExpenseMaxed !== false) {
-            dispath(enterExpenseAction({type: inputVal.type, cost: inputVal.cost, timestamp:Date.now()}))
-        }
+        dispath(enterExpenseAction({type: inputVal.type, cost: inputVal.cost, timestamp:Date.now()}))
         setInputVal({
             type:"",
             cost:""

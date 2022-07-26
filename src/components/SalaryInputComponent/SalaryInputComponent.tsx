@@ -20,7 +20,6 @@ const SalaryInputComponent:React.FC = () => {
     const handleOnSubmit = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispath(addTotalSalaryAction(inputValue));
-        dispath(isExpensedMaxedAction(false));
         setInputValue("");
     }
 
